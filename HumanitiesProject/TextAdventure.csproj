@@ -58,8 +58,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ArgumentProcessor.cs" />
+    <Compile Include="Arguments.cs" />
     <Compile Include="ConsoleManager.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="WindowInterface.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
