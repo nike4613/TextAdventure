@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HumanitiesProject
 {
-    public class TwoForm<T, K>
+    public class TwoForm<T, K> 
     {
         private T tval;
         private K kval;
@@ -30,5 +30,27 @@ namespace HumanitiesProject
         {
             return new TwoForm<T, K>(k);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() == GetType())
+                return Equals((TwoForm<T, K>)obj);
+            return false;
+        }
+
+        public bool Equals(TwoForm<T, K> b)
+        {
+            return isK == b.isK && ((isK && kval.Equals(b.kval)) || (!isK && tval.Equals(b.tval)));
+        }
+
+        public override int GetHashCode()
+        {
+            return isK ? kval.GetHashCode() : tval.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return "TwoForm{" + (isK ? kval.ToString() : tval.ToString()) + "}";
+        }
     }
+
 }

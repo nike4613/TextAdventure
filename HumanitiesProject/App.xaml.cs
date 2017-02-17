@@ -26,13 +26,12 @@ namespace HumanitiesProject
 
             Arguments arg = new Arguments(args);
 
-            if (arg.GetDynamicMemberNames().Contains("console"))
+            if (arg["console"] != null)
             {
                 ConsoleManager.ShowConsoleWindow();
             }
 
             WindowChanged += winCh;
-            WindowChanged += retNul;
             WindowInterfaceChanged += retNul;
         }
 

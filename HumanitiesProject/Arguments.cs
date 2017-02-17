@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HumanitiesProject
 {
-    class Arguments : DynamicObject
+    class Arguments : IEnumerable<string>
     {
         
         private Dictionary<TwoForm<string, int>, string> arguments = new Dictionary<TwoForm<string, int>, string>();
@@ -15,18 +15,24 @@ namespace HumanitiesProject
 
         public Arguments(string[] args)
         {
+            arguments = new Dictionary<TwoForm<string, int>, string>();
+
             int incv = 0;
 
-            for (int index = 1; index < args.Length; index += 1)
+            for (int index = 1; index < args.Length; index++)
             {
-                string arg = args[index];//.Replace("-", "");
+                string arg = args[index];
                 if (arg.StartsWith("-"))
                 {
                     arg = arg.Substring(1);
                     if (index + 1 < args.Length)
+                    {
                         arguments.Add(arg, args[++index]);
+                    }
                     else
+                    {
                         arguments.Add(arg, "");
+                    }
                 }
                 else
                 {
@@ -35,57 +41,42 @@ namespace HumanitiesProject
             }
 
             unordered = incv;
-
         }
 
-        public override bool TrySetMember(SetMemberBinder binder, object value)
+        public string this[TwoForm<string, int> k]
         {
-            return false;
-        }
-        public override bool TrySetIndex(SetIndexBinder binder, object[] indexes, object value)
-        {
-            return false;
-        }
-
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
-        {
-            string name = binder.Name;
-
-            return tryGetMemberImpl(name, out result);
-        }
-        private bool tryGetMemberImpl(string name, out object result)
-        {
-            if (name == "Length")
+            get
             {
-                result = unordered;
-                return true;
+                string r;
+                try
+                {
+                    r = arguments[k];
+                }
+                catch (KeyNotFoundException)
+                {
+                    r = null;
+                }
+
+                return r;
             }
-
-            string outp = null;
-            if (arguments.ContainsKey(name)) arguments.TryGetValue(name, out outp);
-
-            result = outp;
-
-            return true;
         }
-        public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
+
+        public int Length
         {
-            if (indexes.Length > 1) throw new IndexOutOfRangeException("Only one index expected!");
-            object index = indexes[0];
-            Type ityp = index.GetType();
+            get
+            {
+                return unordered;
+            }
+        }
 
-            if (ityp == "".GetType()) return tryGetMemberImpl(index.ToString(), out result);
-
-            if (ityp != (42).GetType()) throw new IndexOutOfRangeException("Index must be string or int!");
-
-            int idx = (int)index;
-
-            if (idx >= unordered) throw new IndexOutOfRangeException("Index is out of range!");
-
-            string res;
-            bool oval = arguments.TryGetValue(idx, out res);
-            result = res;
-            return oval;
+        public IEnumerator<string> GetEnumerator()
+        {
+            for (int i = 0; i < Length; i++)
+                yield return this[i];
+        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
     }

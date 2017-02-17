@@ -24,6 +24,13 @@ namespace HumanitiesProject
         {
             InitializeComponent();
 
+            //App.Window = this;
+        }
+
+        public override void EndInit()
+        {
+            base.EndInit();
+
             App.Window = this;
         }
     }

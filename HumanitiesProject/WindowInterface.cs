@@ -17,7 +17,12 @@ namespace HumanitiesProject
             Console.WriteLine("WindowInterface has been initialized");
         }
 
-
+        public string SetTitle(string newTitle)
+        {
+            string old = window.TitleBlock.Text;
+            window.TitleBlock.Text = newTitle;
+            return old;
+        }
 
     }
 }

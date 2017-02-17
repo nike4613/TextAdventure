@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="A brand new Text Adventure!" Height="350" Width="525" WindowStartupLocation="CenterOwner" Cursor="None" Foreground="#FFFF8B00" Background="Black" IsTabStop="True" IsManipulationEnabled="True" FontFamily="Courier New" ScrollViewer.VerticalScrollBarVisibility="Disabled" MinWidth="525" MinHeight="350">
     <Grid x:Name="Grid" Background="Black" OpacityMask="#FFFFAE00">
-        <TextBlock x:Name="Title" Text="TextBlock" FontFamily="Courier New" Background="#FFFF8B00" FontWeight="Bold" TextAlignment="Center" RenderTransformOrigin="0.5,0.5" Foreground="Black" FontSize="14" Height="18" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+        <TextBlock x:Name="TitleBlock" Text="TextBlock" FontFamily="Courier New" Background="#FFFF8B00" FontWeight="Bold" TextAlignment="Center" RenderTransformOrigin="0.5,0.5" Foreground="Black" FontSize="14" Height="18" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
         <StackPanel Margin="0,12,0,0" Background="Black" RenderTransformOrigin="0.5,0.5">
-            <TextBlock x:Name="Content" TextWrapping="Wrap" Text="TextBlock" Foreground="#FFFF8B00" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top"/>
-            <TextBlock x:Name="Flashing" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="ContentBlock" TextWrapping="Wrap" Text="TextBlock" Foreground="#FFFF8B00" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top"/>
+            <TextBlock x:Name="FlashingBlock" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Margin="0,50,0,0" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>
