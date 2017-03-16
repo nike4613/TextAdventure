@@ -1,8 +1,12 @@
-﻿using System;
+﻿using log4net;
+using log4net.Config;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -18,8 +22,13 @@ namespace HumanitiesProject
     {
         public static App inst;
 
+        //public static ILog log ;
+
+        public static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public App()
         {
+            
             inst = this;
 
             string[] args = Environment.GetCommandLineArgs();
@@ -33,6 +42,40 @@ namespace HumanitiesProject
 
             WindowChanged += winCh;
             WindowInterfaceChanged += retNul;
+        }
+
+        Thread mainThread;
+
+        AutoResetEvent winInterfE = new AutoResetEvent(false);
+
+        private void MmainThread()
+        {
+            if (!winInterfE.WaitOne(0))
+            {
+                log.Info("Waiting for a WindowInterface...");
+                winInterfE.WaitOne();
+            }
+
+            log.Info("Starting Main");
+            EntryPoint.Main(Environment.GetCommandLineArgs());
+            log.Debug("Main exited! Should we die?");
+
+            log.Debug("Nah. USR4LYF");
+        }
+
+        public new void Run()
+        {
+            mainThread = new Thread(new ThreadStart(MmainThread));
+
+            WindowInterfaceChanged += (string p, WindowInterface o, WindowInterface n) =>
+            {
+                winInterfE.Set();
+
+                return null;
+            };
+
+            mainThread.Start();
+            base.Run();
         }
 
         private MainWindow winCh(string s, MainWindow m, MainWindow w)
