@@ -81,10 +81,21 @@ namespace HumanitiesProject
                 {
                     AttachConsole(process.Id);
 
-                    ConsoleColor c = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    //ConsoleColor c = Console.ForegroundColor;
+                    //Console.ForegroundColor = ConsoleColor.DarkBlue;
+
+                    IntPtr con = GetConsoleWindow();
+
+                    ConsoleBufferInfo bufferInfo;
+                    GetConsoleScreenBufferInfo(con, out bufferInfo);
+
+                    SetConsoleTextAttribute(con, 9);
+
                     Console.WriteLine("[ConsoleManager Attatched]");
-                    Console.ForegroundColor = c;
+
+                    SetConsoleTextAttribute(con, bufferInfo.wAttributes);
+
+                    //Console.ForegroundColor = c;
                 }
                 else
                 { 
@@ -104,20 +115,55 @@ namespace HumanitiesProject
             ShowWindow(handle, SW_HIDE);
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+	    public struct ConsoleBufferInfo
+	    { 
+	            public COORD dwSize; 
+	            public COORD dwCursorPosition; 
+	            public ushort wAttributes; 
+	            public SMALL_RECT srWindow; 
+	            public COORD dwMaximumWindowSize; 
+	    }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct COORD
+        {
+            public UInt16 x;
+            public UInt16 y;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SMALL_RECT
+        {
+            public UInt16 Left;
+            public UInt16 Top;
+            public UInt16 Right;
+            public UInt16 Bottom;
+        }
+
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool AllocConsole();
+        public static extern bool AllocConsole();
 
         [DllImport("kernel32.dll")]
-        static extern IntPtr GetConsoleWindow();
+        public static extern IntPtr GetConsoleWindow();
 
         [DllImport("user32.dll")]
-        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool FreeConsole();
+        public static extern bool FreeConsole();
 
         [DllImport("kernel32", SetLastError = true)]
-        static extern bool AttachConsole(int dwProcessId);
+        public static extern bool AttachConsole(int dwProcessId);
+
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool SetConsoleTextAttribute(IntPtr consoleHandle, ushort attributes);
+
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern int GetConsoleOutputCP();
+	
+	    [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool GetConsoleScreenBufferInfo( IntPtr consoleHandle, out ConsoleBufferInfo bufferInfo);
 
         const int SW_HIDE = 0;
         const int SW_SHOW = 5;

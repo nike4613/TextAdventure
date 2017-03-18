@@ -24,11 +24,13 @@ namespace HumanitiesProject
 
         //public static ILog log ;
 
-        public static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public App()
         {
-            
+
+            Thread.CurrentThread.Name = "UI";
+
             inst = this;
 
             string[] args = Environment.GetCommandLineArgs();
@@ -66,6 +68,8 @@ namespace HumanitiesProject
         public new void Run()
         {
             mainThread = new Thread(new ThreadStart(MmainThread));
+
+            mainThread.Name = "Main";
 
             WindowInterfaceChanged += (string p, WindowInterface o, WindowInterface n) =>
             {

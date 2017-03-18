@@ -1,6 +1,8 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -11,13 +13,16 @@ namespace HumanitiesProject
 
     public class WindowInterface
     {
+
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private MainWindow window;
 
         public WindowInterface(MainWindow win)
         {
             window = win;
 
-            App.log.Debug("WindowInterface has been initialized");
+            log.Debug("WindowInterface has been initialized");
         }
 
         private DispatcherOperation setTitleDop;

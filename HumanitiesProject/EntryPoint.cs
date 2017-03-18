@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using log4net;
+using System;
+using System.Reflection;
 
 namespace HumanitiesProject
 {
-    class EntryPoint
+    public class EntryPoint
     {
 
-        public static void Main(string[] args)
-        {
-            App.log.Debug("In Main");
-        }
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        public static void Main(string[] v)
+        {
+            log.Debug("In Main");
+        }
     }
 }
