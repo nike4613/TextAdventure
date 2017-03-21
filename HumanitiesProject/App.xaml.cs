@@ -84,7 +84,7 @@ namespace HumanitiesProject
 
         private MainWindow winCh(string s, MainWindow m, MainWindow w)
         {
-            WindowInterface = new WindowInterface(Window);
+            WindowInterface = new WindowInterface(w);
 
             return null;
         }
@@ -94,7 +94,7 @@ namespace HumanitiesProject
             return null;
         }
 
-        private static MainWindow _window;
+        private static MainWindow _window = null;
         public static ValueChanged<MainWindow> WindowChanged; 
         public static MainWindow Window
         {
@@ -104,9 +104,14 @@ namespace HumanitiesProject
             }
             set
             {
-                MainWindow mwn = WindowChanged.Invoke("Window", _window, value);
-                if (mwn != null) value = mwn;
-                _window = value;
+                if (_window == null)
+                {
+                    log.Debug(_window);
+                    log.Debug(value);
+                    MainWindow mwn = WindowChanged.Invoke("Window", _window, value);
+                    if (mwn != null) value = mwn;
+                    _window = value;
+                }
             }
         }
 

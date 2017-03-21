@@ -22,48 +22,64 @@ namespace HumanitiesProject
         {
             window = win;
 
+            log.Debug(win);
+
             log.Debug("WindowInterface has been initialized");
         }
 
-        private DispatcherOperation setTitleDop;
-        /**
-         * Sets the title of the console window. Note, this will return before the action can complete.
-         * Returns the old title.
-         */
         public string SetTitle(string title)
         {
-            string old = GetTitle();
+            DispatcherOperation op = App.Current.Dispatcher.BeginInvoke( (dSetTitle) _SetTitle, new object[] { title } );
+            op.Wait();
 
-            DispatcherOperation op = System.Windows.Application.Current.Dispatcher.BeginInvoke( (dSetTitle) _SetTitle, new object[] { title } );
-            setTitleDop = op;
-
-            return old;
-        }
-
-        public string SetTitleSync(string title)
-        {
-            SetTitle(title);
-
-            setTitleDop.Wait();
-
-            return (string) setTitleDop.Result;
-        }
-
-        /**
-         * DO NOT USE 
-         */
-        private delegate string dSetTitle(string newTitle);
-        private string _SetTitle(string newTitle)
-        {
-            string old = GetTitle();
-            window.TitleBlock.Text = newTitle;
-            return old;
+            return (String)op.Result;
         }
 
         public string GetTitle()
         {
-            return window.TitleBlock.Text;
+            DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dGetTitle)_GetTitle, new object[] { });
+
+            op.Wait();
+
+            return (string) op.Result;
         }
+        public string Title
+        {
+            get
+            {
+                DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dGetTitle)_GetTitle, new object[] { });
+                op.Wait();
+                return (string)op.Result;
+            }
+            set
+            {
+                DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dSetTitle)_SetTitle, new object[] { value });
+                op.Wait();
+            }
+        }
+        private delegate string dGetTitle();
+        private string _GetTitle() { return window.TitleBlock.Text; }
+        private delegate void dSetTitle(string newTitle);
+        private void _SetTitle(string newTitle) { window.TitleBlock.Text = newTitle; }
+
+        public string Body
+        {
+            get
+            {
+                DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dGetBody)_GetBody, new object[] { });
+                op.Wait();
+                return (string)op.Result;
+            }
+            set
+            {
+                DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dSetBody)_SetBody, new object[] { value });
+                op.Wait();
+            }
+        }
+        private delegate string dGetBody();
+        private string _GetBody() { return window.Body.Text; }
+        private delegate void dSetBody(string s);
+        private void _SetBody(string bod) { window.Body.Text = bod; }
 
     }
 }
