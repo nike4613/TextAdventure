@@ -1,0 +1,45 @@
+﻿{exec text:"intro"}
+
+[object:"wr_shelf"]
+Upon closer inspection, the dusty shelves has a few yellowish coins, 
+although you are unsure whether the yellow is from the metal or not.
+
+[object:inspectable]
+[object:sub"coin""coins"]=object:"wr_s_coins"
+ 
+# End shelf
+
+[object:"wr_s_coins"]
+The coins have an irregular shape, as if they were covered in some goop. 
+The color of the coin is not clear to have come from the metal or something... else.
+
+[object:item]="Coins"x7
+[object:inspectable]
+
+# End coins
+
+[object:"wr_door"]
+The door is loosely fitted into the doorway, allowing light to stream in between it and the wall. 
+The hinges appear to be made out of wood, with what can only be an iron rod anchoring them together.
+
+[object:inspectable]
+[object:useable]
+[object:alias"open"]="use"
+[object:door]=room:"merchcamp"
+
+# End door
+
+[room:"woodroom"]
+[room:description]
+This room is quite cramped. Over the bed in the corner there is a shelf that does not seem to have anything on it. 
+The door on the other end of the room has lights streaming through the cracks.
+
+[room:sub"door"]=object:"wr_door"
+[room:sub"shelf"]=object:"wr_shelf"
+
+[text:"intro"]
+You wake up in an unfamiliar environment.
+
+{set room:"woodroom",exec}
+
+# End woodroom

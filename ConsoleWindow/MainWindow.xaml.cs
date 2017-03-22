@@ -13,17 +13,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HumanitiesProject
+namespace ConsoleWindow
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private string lel = log4netInit.lel;
+
         public MainWindow()
         {
             InitializeComponent();
-
             //App.Window = this;
         }
 
@@ -31,7 +33,7 @@ namespace HumanitiesProject
         {
             base.EndInit();
 
-            App.Window = this;
+            new WindowInterface(this);
         }
     }
 }

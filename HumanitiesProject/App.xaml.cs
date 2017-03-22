@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using ConsoleWindow;
 
 namespace HumanitiesProject
 {
@@ -41,22 +42,18 @@ namespace HumanitiesProject
             {
                 ConsoleManager.ShowConsoleWindow();
             }
-
-            WindowChanged += winCh;
-            WindowInterfaceChanged += retNul;
         }
 
         Thread mainThread;
 
-        AutoResetEvent winInterfE = new AutoResetEvent(false);
-
         private void MmainThread()
         {
-            if (!winInterfE.WaitOne(0))
+            if (!WindowInterface.InitEvent.WaitOne(0))
             {
                 log.Info("Waiting for a WindowInterface...");
-                winInterfE.WaitOne();
+                WindowInterface.InitEvent.WaitOne();
             }
+            //WindowInterface.InitEvent.WaitOne();
 
             log.Info("Starting Main");
             EntryPoint.Main(Environment.GetCommandLineArgs());
@@ -71,64 +68,11 @@ namespace HumanitiesProject
 
             mainThread.Name = "Main";
 
-            WindowInterfaceChanged += (string p, WindowInterface o, WindowInterface n) =>
-            {
-                winInterfE.Set();
-
-                return null;
-            };
-
             mainThread.Start();
-            base.Run();
-        }
 
-        private MainWindow winCh(string s, MainWindow m, MainWindow w)
-        {
-            WindowInterface = new WindowInterface(w);
+            MainWindow = new MainWindow();
 
-            return null;
-        }
-
-        private T retNul<T>(string s, T m, T w) where T:class
-        {
-            return null;
-        }
-
-        private static MainWindow _window = null;
-        public static ValueChanged<MainWindow> WindowChanged; 
-        public static MainWindow Window
-        {
-            get
-            {
-                return _window;
-            }
-            set
-            {
-                if (_window == null)
-                {
-                    log.Debug(_window);
-                    log.Debug(value);
-                    MainWindow mwn = WindowChanged.Invoke("Window", _window, value);
-                    if (mwn != null) value = mwn;
-                    _window = value;
-                }
-            }
-        }
-
-        private static WindowInterface _winInterf;
-        public static ValueChanged<WindowInterface> WindowInterfaceChanged;
-        public static WindowInterface WindowInterface
-        {
-            get
-            {
-                return _winInterf;
-            }
-            set
-            {
-                WindowInterface mwn = WindowInterfaceChanged.Invoke("WindowInterface", _winInterf, value);
-                if (mwn != null) value = mwn;
-                _winInterf = value;
-            }
+            Run(MainWindow);
         }
 
     }

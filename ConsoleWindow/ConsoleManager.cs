@@ -6,8 +6,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HumanitiesProject
-{
+namespace ConsoleWindow
+{ 
+
     [StructLayout(LayoutKind.Sequential)]
     public struct ParentProcessUtilities
     {
@@ -69,6 +70,9 @@ namespace HumanitiesProject
 
     public class ConsoleManager
     {
+
+        private string lel = log4netInit.lel;
+
         public static void ShowConsoleWindow()
         {
             var handle = GetConsoleWindow();
@@ -101,6 +105,7 @@ namespace HumanitiesProject
                 { 
                     AllocConsole();
                 }
+                ShowWindow(GetConsoleWindow(), SW_SHOW);
             }
             else
             {

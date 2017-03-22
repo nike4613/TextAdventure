@@ -4,15 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace HumanitiesProject
+namespace ConsoleWindow
 {
     public delegate string dSetTitle(string newTitle);
 
     public class WindowInterface
     {
+
+        private string lel = log4netInit.lel;
+
+        public static WindowInterface inst;
+
+        public static AutoResetEvent InitEvent = new AutoResetEvent(false);
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -25,35 +32,22 @@ namespace HumanitiesProject
             log.Debug(win);
 
             log.Debug("WindowInterface has been initialized");
+
+            inst = this;
+            InitEvent.Set();
         }
 
-        public string SetTitle(string title)
-        {
-            DispatcherOperation op = App.Current.Dispatcher.BeginInvoke( (dSetTitle) _SetTitle, new object[] { title } );
-            op.Wait();
-
-            return (String)op.Result;
-        }
-
-        public string GetTitle()
-        {
-            DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dGetTitle)_GetTitle, new object[] { });
-
-            op.Wait();
-
-            return (string) op.Result;
-        }
         public string Title
         {
             get
             {
-                DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dGetTitle)_GetTitle, new object[] { });
+                DispatcherOperation op = System.Windows.Application.Current.Dispatcher.BeginInvoke((dGetTitle)_GetTitle, new object[] { });
                 op.Wait();
                 return (string)op.Result;
             }
             set
             {
-                DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dSetTitle)_SetTitle, new object[] { value });
+                DispatcherOperation op = System.Windows.Application.Current.Dispatcher.BeginInvoke((dSetTitle)_SetTitle, new object[] { value });
                 op.Wait();
             }
         }
@@ -66,13 +60,13 @@ namespace HumanitiesProject
         {
             get
             {
-                DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dGetBody)_GetBody, new object[] { });
+                DispatcherOperation op = System.Windows.Application.Current.Dispatcher.BeginInvoke((dGetBody)_GetBody, new object[] { });
                 op.Wait();
                 return (string)op.Result;
             }
             set
             {
-                DispatcherOperation op = App.Current.Dispatcher.BeginInvoke((dSetBody)_SetBody, new object[] { value });
+                DispatcherOperation op = System.Windows.Application.Current.Dispatcher.BeginInvoke((dSetBody)_SetBody, new object[] { value });
                 op.Wait();
             }
         }

@@ -1,4 +1,6 @@
-﻿using log4net;
+﻿using ConsoleWindow;
+using GameProcessor;
+using log4net;
 using System;
 using System.Reflection;
 using System.Threading;
@@ -16,7 +18,9 @@ namespace HumanitiesProject
         {
             log.Debug("In Main");
 
-            window = App.WindowInterface;
+            ConsoleManager.ShowConsoleWindow();
+
+            window = WindowInterface.inst;
 
             log.Debug("Setting title");
             window.Title = "HOOOOO BOY";
@@ -25,6 +29,8 @@ namespace HumanitiesProject
             log.Debug("Setting body");
             window.Body = "hErE wE gO";
             log.Debug("Body Set");
+
+            ChapterLoader.Test();
 
         }
     }
