@@ -8,6 +8,10 @@ namespace GameProcessor
 {
     class Text : AChapterConfigElement
     {
+        public override void ProcessObjectRefs()
+        {
+            throw new NotImplementedException();
+        }
 
         public override void SetProperty(string prop, string[] args, string value)
         {

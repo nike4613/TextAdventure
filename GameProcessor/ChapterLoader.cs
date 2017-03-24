@@ -103,6 +103,8 @@ namespace GameProcessor
                     else if (inSqg)
                     {
                         // Ignore for now
+
+                        if (c == '}') inSqg = false;
                     }
                     else
                     {

@@ -21,6 +21,8 @@ namespace GameProcessor
             }
         }
 
+        protected internal string desc_identifier = "";
+
         public override void SetProperty(string prop, string[] args, string value)
         {
             switch (prop) {
@@ -32,7 +34,10 @@ namespace GameProcessor
                     break;
                 case "description":
                     {
-                        readDesc = true;
+                        if (value == "")
+                            readDesc = true;
+                        else
+                            desc_identifier = value;
                     }
                     break;
                 case "sub":
@@ -53,6 +58,11 @@ namespace GameProcessor
                 Description = block;
                 readDesc = false;
             }
+        }
+
+        public override void ProcessObjectRefs()
+        {
+            throw new NotImplementedException();
         }
     }
 }

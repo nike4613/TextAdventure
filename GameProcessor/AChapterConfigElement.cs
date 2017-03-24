@@ -16,6 +16,8 @@ namespace GameProcessor
         public abstract void SetProperty(string prop, string[] args, string value);
         public abstract void SetTextBlock(string block);
 
+        public abstract void ProcessObjectRefs();
+
         public override string ToString()
         {
             return GetType().Name + "('" + Name + "': '" + Description + "')";

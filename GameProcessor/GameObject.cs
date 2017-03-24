@@ -36,8 +36,7 @@ namespace GameProcessor
         public bool Inspectable { get; protected internal set; }
         public bool Useable { get; protected internal set; }
 
-        private static Regex itemRx = new Regex("\"(.+)\"x(\\d+)",
-          RegexOptions.Compiled );
+        private static Regex itemRx = new Regex( "\"(.+)\"x(\\d+)", RegexOptions.Compiled );
         public string ItemName { get; protected internal set; }
         public int ItemCount { get; protected internal set; }
 
@@ -103,6 +102,11 @@ namespace GameProcessor
         public override void SetTextBlock(string block)
         {
             if (block.Length > 5) Description = block;
+        }
+
+        public override void ProcessObjectRefs()
+        {
+            throw new NotImplementedException();
         }
     }
 }
